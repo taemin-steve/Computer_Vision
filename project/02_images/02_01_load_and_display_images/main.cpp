@@ -6,8 +6,8 @@ using namespace cv;
 
 int main()
 {
-    // Load an image
-    Mat img = imread("messi5.jpg");
+    // Load an image 
+    Mat img = imread("messi5.jpg"); //shallow copy
 
     // Check if image loading is successful
     if (img.empty())
