@@ -5,7 +5,10 @@ using namespace std;
 using namespace cv;
 
 // Global variables
-Mat    g_imgColor;
+Mat    g_imgColor; // base
+Mat    g_imgColor_copy; // for mouse up
+Mat    g_imgColor_temp; // for mouse move
+
 bool   g_isMousePressed = false; // check does mouse clicked 
 int    g_mouseStartX = -1;
 int    g_mouseStartY = -1;
@@ -41,7 +44,9 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     {
         if(g_isMousePressed){
             //draw all 
-            rectangle(g_imgColor, Point(g_mouseStartX, g_mouseStartY), Point(x, y), color, -1);
+            g_imgColor_temp = g_imgColor_copy.clone(); //Copy imgColor before Mouseup event 
+            rectangle(g_imgColor_temp, Point(g_mouseStartX, g_mouseStartY), Point(x, y), color, -1);
+            g_imgColor = g_imgColor_temp.clone(); // draw new imgColor
         }
     }
 
@@ -53,6 +58,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
 
         // Draw a rectangle
         rectangle(g_imgColor, Point(g_mouseStartX, g_mouseStartY), Point(x, y), color, -1);
+        g_imgColor_copy = g_imgColor.clone(); // update g_imgColor_copy
     }
     
 
@@ -64,7 +70,8 @@ int main()
     const int rows = 480;
     const int cols = 640;
     g_imgColor = Mat::zeros(rows, cols, CV_8UC3);
-
+    g_imgColor_copy = Mat::zeros(rows, cols, CV_8UC3);
+    g_imgColor_temp = Mat::zeros(rows, cols, CV_8UC3);
     // Create a window
     String strWindowName = "Mouse Events";
     namedWindow(strWindowName);
