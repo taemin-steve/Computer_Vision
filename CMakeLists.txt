@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.0.0) # 버전 쓰세요 
 project(Top)
 
 # OpenCV 4.7.0
@@ -17,4 +17,6 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/project/03_videos_and_cameras")
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/04_drawing")
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/05_user_interface")
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/06_image_histogram")
+add_subdirectory("${CMAKE_SOURCE_DIR}/project/07_image_thresholding")
+add_subdirectory("${CMAKE_SOURCE_DIR}/project/08_image_blending")
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/81_homework_01")
