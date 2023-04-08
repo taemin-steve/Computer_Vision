@@ -4,6 +4,6 @@ cmake_minimum_required(VERSION 3.0.0)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_01_draw_rectangles_wysiwyg")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_02_draw_rectangles_once")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_03_draw_rectangles_and_ellipses")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_04_draw_rectangles_ellipses_and_brush")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_04_draw_rectangles_ellipses_or_brush")
 
 
