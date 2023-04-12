@@ -30,7 +30,8 @@ int main()
     // Otsu's thresholding after Gaussian filtering
     Mat blurImg;
     GaussianBlur(img, blurImg, Size(5,5), 0);
-    threshold(blurImg, thresholdedImgs[2], 0, 255, THRESH_BINARY+THRESH_OTSU);
+    threshold(blurImg, thresholdedImgs[2], 0, 255, THRESH_BINARY+THRESH_OTSU); // enum으로 만들어음. 하지만 원하는거 마다 추가해야함. 둘을 조합해서 사용하는 방법이 더 편하다 
+    // 위의 +는 bit 오퍼레이션으로 가능. 
 
     // Display the image and its histogram
     Mat resultImg1, resultImg2, resultImg3;

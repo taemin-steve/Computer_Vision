@@ -28,7 +28,7 @@ int main()
     // Threshold the image
     vector<Mat> img_results(3);
     threshold(img_blurred, img_results[0], 127, 255, THRESH_BINARY);
-    adaptiveThreshold(img_blurred, img_results[1], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 11, 2);
+    adaptiveThreshold(img_blurred, img_results[1], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 11, 2); // 마지막 두 숫자는 blockSize >> window 크기 홀수로, 
     adaptiveThreshold(img_blurred, img_results[2], 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 11, 2);
 
     Mat img_result2;
