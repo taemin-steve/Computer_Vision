@@ -9,5 +9,5 @@ set (CMAKE_CXX_STANDARD 11)
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} ${OpenCV_STATIC_LIB})
 
-configure_file(${DATA_DIR}/lena.jpg ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${DATA_DIR}/opencv-logo-white.png ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${OpenCV_DYNAMIC_LIB} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
