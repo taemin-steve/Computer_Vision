@@ -19,7 +19,7 @@ int main()
 
     // Blurring
     Mat img_blur;
-    blur(img, img_blur, Size(5, 5));
+    blur(img, img_blur, Size(5, 5)); // Box filter 가 적용된것! 자동으로 노멀라이즈 했음! 안하고 싶으면 boxFilter()쓰면 됨!
 
     // Gaussian Blurring
     Mat img_Gaussian_blur;

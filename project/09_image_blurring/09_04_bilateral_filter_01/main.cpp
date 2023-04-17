@@ -31,7 +31,7 @@ int main()
 
     // Bilateral filter
     Mat img_bilateral;
-    bilateralFilter(img, img_bilateral, 15, 75, 75);
+    bilateralFilter(img, img_bilateral, 15, 75, 75); // 이런것도 쓸 수 있다 ~
 
     // Display the result
     Mat img_result;
