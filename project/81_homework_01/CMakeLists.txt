@@ -7,3 +7,4 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_03_draw_rectangles_and_ellip
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/HW_01_04_draw_rectangles_ellipses_or_brush")
 
 
+

@@ -8,6 +8,7 @@ int main()
 {
     // Load an image
     Mat img_color = imread("messi5.jpg", IMREAD_COLOR);
+    cout << "OpenCV version : " << img_color.channels() << endl;
 
     // Check if image loading is successful
     if (img_color.empty())
@@ -19,10 +20,12 @@ int main()
     // Convert the color image to gray
     Mat img_gray;
     cvtColor(img_color, img_gray, COLOR_BGR2GRAY);
+    cout << "OpenCV version : " << img_gray.channels() << endl;
 
     // Convert the gray to color image
     Mat img_gray_3channels;
     cvtColor(img_gray, img_gray_3channels, COLOR_GRAY2BGR);
+    cout << "OpenCV version : " << img_gray_3channels.channels() << endl;
 
     // Concatenate color and gray images
     Mat img_color_vs_gray;

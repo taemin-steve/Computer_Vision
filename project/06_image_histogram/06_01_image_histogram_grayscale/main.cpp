@@ -39,10 +39,10 @@ int main()
              );
 
     // Histogram image
-    int hist_w = 512, hist_h = 400;
-    int bin_w = cvRound((double) hist_w/histSize);
-    Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(255, 255, 255));
-    normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+    int hist_w = 512, hist_h = 400; // 그냥 내가 원하는 크기의 window 
+    int bin_w = cvRound((double) hist_w/histSize); // 하나의 bin의 size. 현재는 256칸을 나눠야 함!
+    Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(255, 255, 255)); // 
+    normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat()); // 최소값 0, 최대값이 histImage의 높이가 되게끔 해달라!
     for(int i = 1; i < histSize; i++)
     {
         line(histImage, Point(bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1))), //좌표계가 달라서 이렇게 해줘야함

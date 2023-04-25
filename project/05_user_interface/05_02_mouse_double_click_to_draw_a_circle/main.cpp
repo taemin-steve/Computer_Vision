@@ -41,7 +41,7 @@ int main()
 
     // Create a window
     String strWindowName = "Mouse Events";
-    namedWindow(strWindowName);
+    namedWindow(strWindowName); // window를 만들고, 여기에 콜백함수를 달아주는 과정이 main에서 있어야함.
 
     // Register the mouse callback function
     setMouseCallback(strWindowName, mouse_callback); // 함수 포인터 콜벡 

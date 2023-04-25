@@ -54,7 +54,7 @@ int main()
     for (int c = 0; c < 3; c++)
     {
         // Normalize the histogram in [0, rows]
-        normalize(hists[c], hists[c], 0, histImage.rows, NORM_MINMAX, -1, Mat());
+        normalize(hists[c], hists[c], 0, histImage.rows, NORM_MINMAX, -1, Mat()); 
 
         // Draw the histogram
         Scalar color(c==0?255:0, c==1?255:0, c==2?255:0);

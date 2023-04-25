@@ -30,8 +30,8 @@ int main()
     filter2D(img_gray, img_prewitt_y, -1, prewitt_y);
 
     // Take absolute values and scale
-    convertScaleAbs(img_prewitt_x, img_prewitt_x);
-    convertScaleAbs(img_prewitt_y, img_prewitt_y);
+    convertScaleAbs(img_prewitt_x, img_prewitt_x); // 미분값은, 변화율을 음수 값이 나올 수 있거든! 이걸 해결해 주겠다는거지 
+    convertScaleAbs(img_prewitt_y, img_prewitt_y); // 음으로 크더, 양으로 그던 둘다 밝ㄱ, edge로 그려버리겠따!
 
     // Add both images
     Mat img_prewitt;
