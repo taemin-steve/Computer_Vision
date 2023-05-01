@@ -37,9 +37,11 @@ int main()
     Mat img_logo_fg;
     bitwise_and(img_logo, img_logo, img_logo_fg, img_mask);// 마지막 옵션에 마스크 영역에 대해서만 하게끔 가능
 
+
     // Now black-out the area of logo in ROI
     Mat img_messi_bg;
     bitwise_and(img_roi, img_roi, img_messi_bg, img_mask_inv);// 
+    imshow("1", img_messi_bg);
 
     // Put logo in ROI and modify the main image
     add(img_logo_fg, img_messi_bg, img_roi);
