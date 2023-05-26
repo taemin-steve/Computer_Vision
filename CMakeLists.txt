@@ -26,3 +26,5 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/project/12_hough_transform")
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/14_geometric_transformations")
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/81_homework_01") 
 add_subdirectory("${CMAKE_SOURCE_DIR}/project/정태민_2018204059_HW_02")
+add_subdirectory("${CMAKE_SOURCE_DIR}/project/정태민_2018204059_HW_03")
+
