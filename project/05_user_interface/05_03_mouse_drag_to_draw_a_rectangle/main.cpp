@@ -6,7 +6,7 @@ using namespace cv;
 
 // Global variables
 Mat    g_imgColor;
-bool   g_isMousePressed = false;
+bool   g_is_L_MousePressed = false;
 int    g_mouseStartX = -1;
 int    g_mouseStartY = -1;
 
@@ -25,7 +25,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_LBUTTONDOWN)
     {
         // Flag on
-        g_isMousePressed = true;
+        g_is_L_MousePressed = true;
         
         // Record the mouse position
         g_mouseStartX = x;
@@ -36,7 +36,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_LBUTTONUP)
     {
         // Flag off
-        g_isMousePressed = false;
+        g_is_L_MousePressed = false;
 
         // Pick a random color
         Scalar color = randomColor(g_rng);

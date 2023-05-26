@@ -9,7 +9,7 @@ Mat    g_imgColor; // base
 Mat    g_imgColor_copy; // for mouse up
 Mat    g_imgColor_temp; // for mouse move
 
-bool   g_isMousePressed = false; // check does mouse clicked 
+bool   g_is_L_MousePressed = false; // check does mouse clicked 
 int    g_mouseStartX = -1;
 int    g_mouseStartY = -1;
 Scalar color; // for share color in events
@@ -29,7 +29,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_LBUTTONDOWN)
     {
         // Flag on
-        g_isMousePressed = true;
+        g_is_L_MousePressed = true;
         
         // Record the mouse position
         g_mouseStartX = x;
@@ -42,7 +42,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     // Mouse move
     if (event == EVENT_MOUSEMOVE)
     {
-        if(g_isMousePressed){
+        if(g_is_L_MousePressed){
             //draw all 
             g_imgColor_temp = g_imgColor_copy.clone(); //Copy imgColor before Mouseup event 
             rectangle(g_imgColor_temp, Point(g_mouseStartX, g_mouseStartY), Point(x, y), color, -1);
@@ -54,7 +54,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_LBUTTONUP)
     {
         // Flag off
-        g_isMousePressed = false;
+        g_is_L_MousePressed = false;
 
         // Draw a rectangle
         rectangle(g_imgColor, Point(g_mouseStartX, g_mouseStartY), Point(x, y), color, -1);

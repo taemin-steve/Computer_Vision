@@ -6,12 +6,13 @@ using namespace cv;
 
 // Global variables
 Mat    g_imgColor;
-bool   g_isMousePressed = false;
+bool   g_is_L_MousePressed = false;
 int    g_mouseStartX = -1;
 int    g_mouseStartY = -1;
-Mat M = (Mat_<double>(2,3) << 1,  0,  0,
-                              0,  1,  0);
 
+Mat M_temp = (Mat_<double>(3,3) << 1,  0,  0,
+                                   0,  1,  0,
+                                   0,  0,  1);
 // Create image
 Mat img = imread("messi5.jpg");
 
@@ -31,22 +32,36 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_LBUTTONDOWN)
     {
         // Flag on
-        g_isMousePressed = true;
+        g_is_L_MousePressed = true;
         
         // Record the mouse position
         g_mouseStartX = x;
         g_mouseStartY = y;
     }
 
+     // Mouse move
+    if (event == EVENT_MOUSEMOVE)
+    {
+        if(g_is_L_MousePressed){
+            M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
+                                           0,  1,   y - g_mouseStartY,
+                                           0,  0,   1);
+            warpAffine(img, img, M_temp.rowRange(0,2), img.size());
+            g_mouseStartX = x;
+            g_mouseStartY = y;             
+        }
+    }
+
     // Left button released
     if (event == EVENT_LBUTTONUP)
     {
         // Flag off
-        g_isMousePressed = false;
-        M = (Mat_<double>(2,3) << 1,  0,  x - g_mouseStartX ,
-                                  0,  1,   y - g_mouseStartY );
+        g_is_L_MousePressed = false;
+        M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
+                                       0,  1,   y - g_mouseStartY,
+                                       0,  0,   1);
 
-        warpAffine(img, img, M, img.size());
+        warpAffine(img, img,  M_temp.rowRange(0,2), img.size());
 
     }
 }
