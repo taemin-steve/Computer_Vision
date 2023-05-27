@@ -1,10 +1,9 @@
+#define _USE_MATH_DEFINES
 #include <iostream>
 using namespace std;
 
 #include <opencv2/opencv.hpp>
 using namespace cv;
-
-// #include <vector>
 
 // Global variables
 Mat    g_imgColor;
@@ -60,12 +59,53 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
             g_mouseStartX = x;
             g_mouseStartY = y;             
         }
+
         if(g_is_R_MousePressed){
-            Mat vector1(g_mouseStartX - M_imgCenter.at<double>(1,1), -(g_mouseStartX - M_imgCenter.at<double>(2,1)) , 1);
-            // Mat vector2(x - M_imgCenter.at<double>(1,1), -(y - M_imgCenter.at<double>(2,1)) , 1);
-            // Mat vector3 = vector1.cross(vector2);
-            // cout << vector3 << endl;
-            // Vec3d crossProduct = cross(vector1,vector2);
+
+            Mat vector1 = (Mat_<double>(3,1) << g_mouseStartX - M_imgCenter.at<double>(0,0), 
+                                              -(g_mouseStartY - M_imgCenter.at<double>(1,0)),
+                                                0);
+            Mat vector2 = (Mat_<double>(3,1) << x - M_imgCenter.at<double>(0,0), 
+                                              -(y - M_imgCenter.at<double>(1,0)),
+                                                0);
+            Mat crossProduct = vector1.cross(vector2);
+
+            double d1 = norm(vector1);
+            double d2 = norm(vector2);
+            double d3 = norm(crossProduct);
+        
+            double degree = asin(d3 / (d1*d2))* 180.0 / M_PI;
+
+            // cout << degree << endl;
+            if(crossProduct.at<double>(2,0) > 10){
+                Point2f center(M_imgCenter.at<double>(0,0),M_imgCenter.at<double>(1,0));
+                Mat M_rot = getRotationMatrix2D(center, degree, 1.0);
+                cout << M_rot<< endl;
+                M_temp = (Mat_<double>(3,3) << M_rot.at<double>(0,0),  M_rot.at<double>(0,1),  M_rot.at<double>(0,2),
+                                               M_rot.at<double>(1,0),  M_rot.at<double>(1,1),   M_rot.at<double>(1,2),
+                                               0,  0,   1);
+                cout << M_temp<< endl;
+
+                gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
+                warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
+                g_mouseStartX = x;
+                g_mouseStartY = y;    
+            }
+            else if (crossProduct.at<double>(2,0) < -10)
+            {
+                Point2f center(M_imgCenter.at<double>(0,0),M_imgCenter.at<double>(1,0));
+                Mat M_rot = getRotationMatrix2D(center, -degree, 1.0);
+                cout << M_rot<< endl;
+                M_temp = (Mat_<double>(3,3) << M_rot.at<double>(0,0),  M_rot.at<double>(0,1),  M_rot.at<double>(0,2),
+                                               M_rot.at<double>(1,0),  M_rot.at<double>(1,1),   M_rot.at<double>(1,2),
+                                               0,  0,   1);
+                cout << M_temp<< endl;
+
+                gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
+                warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
+                g_mouseStartX = x;
+                g_mouseStartY = y; 
+            }
         }
     }
 
@@ -74,12 +114,6 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     {
         // Flag off
         g_is_L_MousePressed = false;
-        M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
-                                       0,  1,   y - g_mouseStartY,
-                                       0,  0,   1);
-
-        gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
-        warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
 
     }
 
@@ -116,7 +150,7 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
         g_is_R_MousePressed = true;
         M_imgCenter = (Mat_<double>(3,1) << g_imgCenterX, g_imgCenterY, 1);
         gemm(M_current, M_imgCenter, 1.0, cv::Mat(), 0, M_imgCenter);
-
+        
         g_mouseStartX = x;
         g_mouseStartY = y;
         
