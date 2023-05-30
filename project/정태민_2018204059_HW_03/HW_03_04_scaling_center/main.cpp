@@ -9,30 +9,13 @@ Mat    g_imgColor;
 bool   g_is_L_MousePressed = false;
 int    g_mouseStartX = -1;
 int    g_mouseStartY = -1;
+
 Mat M_current = (Mat_<double>(3,3) << 1,  0,  0,
                                       0,  1,  0,
                                       0,  0,  1);
-
-Mat M_temp = (Mat_<double>(3,3) << 1,  0,  0,
-                                   0,  1,  0,
-                                   0,  0,  1);
-
-Mat M_scale = (Mat_<double>(3,3) << 1,  0,  0,
-                                   0,  1,  0,
-                                   0,  0,  1);
 // Create image
 Mat img = imread("messi5.jpg");
 Mat img_ori = imread("messi5.jpg");
-
-
-
-// OpenCV Random Number Generator
-RNG g_rng(getTickCount());
-Scalar randomColor(RNG &g_rng)
-{
-    int icolor = (unsigned) g_rng;
-    return Scalar(icolor&255, (icolor>>8)&255, (icolor>>16)&255);
-}
 
 // Mouse callback function
 void mouse_callback(int event, int x, int y, int flags, void *param)
@@ -52,13 +35,19 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_MOUSEMOVE)
     {
         if(g_is_L_MousePressed){
-            M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
-                                           0,  1,   y - g_mouseStartY,
-                                           0,  0,   1);
+
+            Mat M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
+                                               0,  1,   y - g_mouseStartY,
+                                               0,  0,   1);
+
             gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
             warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
+
             g_mouseStartX = x;
-            g_mouseStartY = y;             
+            g_mouseStartY = y;
+
+            M_temp.release();
+
         }
     }
 
@@ -67,12 +56,6 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     {
         // Flag off
         g_is_L_MousePressed = false;
-        M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
-                                       0,  1,   y - g_mouseStartY,
-                                       0,  0,   1);
-
-        gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
-        warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
 
     }
 
@@ -85,20 +68,26 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
         // Do something with the delta value
         if (delta > 0)
         {
-            M_temp = (Mat_<double>(3,3) << 0.8,  0,  (0.2)*x,
-                                           0,  0.8,   (0.2)*y,
-                                           0,  0,   1);
+            Mat M_temp = (Mat_<double>(3,3) << 0.8,  0,  (0.2)*x,
+                                               0,  0.8,   (0.2)*y,
+                                               0,  0,   1);
+
             gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
             warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
+
+            M_temp.release();
+
         }
         else if (delta < 0)
         {
-            M_temp = (Mat_<double>(3,3) << 1.2,  0,  -(0.2)*x,
-                                           0,  1.2,   -(0.2)*y,
-                                           0,  0,   1);
+           Mat M_temp = (Mat_<double>(3,3) << 1.2,  0,  -(0.2)*x,
+                                              0,  1.2,   -(0.2)*y,
+                                              0,  0,   1);
             
             gemm(M_temp, M_current, 1.0, cv::Mat(), 0, M_current);
             warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
+
+            M_temp.release();
         }
     }
 }

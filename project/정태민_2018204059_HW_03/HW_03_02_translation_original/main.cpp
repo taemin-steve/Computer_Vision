@@ -13,22 +13,9 @@ Mat M_current = (Mat_<double>(3,3) << 1,  0,  0,
                                       0,  1,  0,
                                       0,  0,  1);
 
-Mat M_temp = (Mat_<double>(3,3) << 1,  0,  0,
-                                   0,  1,  0,
-                                   0,  0,  1);
 // Create image
 Mat img = imread("messi5.jpg");
 Mat img_ori = imread("messi5.jpg");
-
-
-
-// OpenCV Random Number Generator
-RNG g_rng(getTickCount());
-Scalar randomColor(RNG &g_rng)
-{
-    int icolor = (unsigned) g_rng;
-    return Scalar(icolor&255, (icolor>>8)&255, (icolor>>16)&255);
-}
 
 // Mouse callback function
 void mouse_callback(int event, int x, int y, int flags, void *param)
@@ -48,13 +35,20 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     if (event == EVENT_MOUSEMOVE)
     {
         if(g_is_L_MousePressed){
-            M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
-                                           0,  1,   y - g_mouseStartY,
-                                           0,  0,   1);
+            //Make matrix
+            Mat M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
+                                               0,  1,   y - g_mouseStartY,
+                                               0,  0,   1);
+            //Multiply Matrix
             gemm(M_current, M_temp, 1.0, cv::Mat(), 0, M_current);
+
+            // Translate
             warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
+
             g_mouseStartX = x;
-            g_mouseStartY = y;             
+            g_mouseStartY = y;    
+
+            M_temp.release();      
         }
     }
 
@@ -63,12 +57,6 @@ void mouse_callback(int event, int x, int y, int flags, void *param)
     {
         // Flag off
         g_is_L_MousePressed = false;
-        M_temp = (Mat_<double>(3,3) << 1,  0,  x - g_mouseStartX,
-                                       0,  1,   y - g_mouseStartY,
-                                       0,  0,   1);
-
-        gemm(M_current, M_temp, 1.0, cv::Mat(), 0, M_current);
-        warpAffine(img_ori, img,  M_current.rowRange(0,2), img.size());
 
     }
 }
